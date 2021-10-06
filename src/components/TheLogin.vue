@@ -1,12 +1,17 @@
 <template>
   <div class="card">
-    <form action="" class="form-control">
+    <form action="" class="form-control" @submit.prevent="submitForm">
       <label for="email">Email</label>
-      <input type="email" v-model="email" />
+      <input type="email" v-model.trim="email" />
       <label for="password">Password</label>
-      <input type="password" v-model="password" />
-      <button>Login</button>
-      <button>Sign Up</button>
+      <input type="password" v-model.trim="password" />
+      <p v-if="!formIsValid">
+        Please enter a valid email and password (at least 6 characters long).
+      </p>
+      <the-button>{{ submitButton }}</the-button>
+      <the-button type="button" mode="flat" @click="switchAuthMode">{{
+        switchModeButtonCaption
+      }}</the-button>
     </form>
   </div>
 </template>
@@ -17,7 +22,46 @@ export default {
     return {
       email: '',
       password: '',
+      formIsValid: true,
+      mode: 'login',
     }
+  },
+  computed: {
+    submitButton() {
+      if (this.mode === 'login') {
+        return 'Login'
+      } else {
+        return 'Signup'
+      }
+    },
+    switchModeButtonCaption() {
+      if (this.mode === 'login') {
+        return 'Signup instead'
+      } else {
+        return 'Login'
+      }
+    },
+  },
+  methods: {
+    submitForm() {
+      this.formIsValid = true
+      if (
+        this.email === '' ||
+        !this.email.includes('@') ||
+        this.password.length < 6
+      ) {
+        this.formIsValid = false
+        return
+      }
+      // send http request
+    },
+    switchAuthMode() {
+      if (this.mode === 'login') {
+        this.mode = 'signup'
+      } else {
+        this.mode = 'login'
+      }
+    },
   },
 }
 </script>
@@ -50,6 +94,12 @@ export default {
       border-color: #3d008d;
       background-color: #faf6ff;
       outline: none;
+    }
+    form {
+      margin: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 1rem;
     }
   }
 }
