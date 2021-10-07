@@ -2,9 +2,9 @@
   <div class="card">
     <form action="" class="form-control" @submit.prevent="submitForm">
       <label for="email">Email</label>
-      <input type="email" v-model.trim="email" />
+      <input type="email" id="email" v-model.trim="email" />
       <label for="password">Password</label>
-      <input type="password" v-model.trim="password" />
+      <input type="password" id="password" v-model.trim="password" />
       <p v-if="!formIsValid">
         Please enter a valid email and password (at least 6 characters long).
       </p>
@@ -53,7 +53,15 @@ export default {
         this.formIsValid = false
         return
       }
-      // send http request
+
+      if (this.mode === 'login') {
+        //...
+      } else {
+        this.$store.dispatch('signup', {
+          email: this.email,
+          password: this.password,
+        })
+      }
     },
     switchAuthMode() {
       if (this.mode === 'login') {
