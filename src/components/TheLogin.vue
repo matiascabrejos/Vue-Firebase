@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <form action="" class="form-control" @submit.prevent="submitForm">
+    <form class="form-control" @submit.prevent="submitForm">
       <label for="email">Email</label>
       <input type="email" id="email" v-model.trim="email" />
       <label for="password">Password</label>
