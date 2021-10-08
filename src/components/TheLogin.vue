@@ -55,7 +55,10 @@ export default {
       }
 
       if (this.mode === 'login') {
-        //...
+        this.$store.dispatch('login', {
+          email: this.email,
+          password: this.password,
+        })
       } else {
         this.$store.dispatch('signup', {
           email: this.email,
